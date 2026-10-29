@@ -24,7 +24,7 @@ jobs:
 
       - name: Run Open-Meteo Ingestion & ML Inference
         run: |
-          python open_meteo.py
+          python fetch_open_meteo.py
           python predict_grid.py
 
       - name: Commit and push updated predictions
