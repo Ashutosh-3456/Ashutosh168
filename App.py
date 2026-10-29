@@ -1106,13 +1106,17 @@ elif st.session_state.role == "sarpanch" and st.session_state.current_page == "c
     )
     speak_page_text(confirm_init_speech, st.session_state.language)
 
-# Inside OTP verification success block:
-upsert_farmer_profile(
-    phone=st.session_state.otp_phone,
-    name=st.session_state.farmer_profile["name"],
-    village=st.session_state.farmer_profile["village"]
-)
+from supabase_client import upsert_farmer_profile
 
+# Safely extract profile data with fallbacks to prevent KeyError
+farmer_name = st.session_state.get("farmer_profile", {}).get("name", "Registered Farmer")
+farmer_village = st.session_state.get("farmer_profile", {}).get("village", "Kalyani Basin")
+
+upsert_farmer_profile(
+    phone=st.session_state.get("otp_phone", ""),
+    name=farmer_name,
+    village=farmer_village
+)
 # Inside submit_verdict block:
 success = insert_sarpanch_feedback(
     village=s_vill_en,
