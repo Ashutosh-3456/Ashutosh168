@@ -1117,6 +1117,9 @@ upsert_farmer_profile(
     name=farmer_name,
     village=farmer_village
 )
+# Define s_vill_en safely from session state
+s_vill_en = st.session_state.get("sarpanch_profile", {}).get("village", "Kalyani Basin")
+s_vill_hi = st.session_state.get("sarpanch_profile", {}).get("village_hi", "कल्याणी कछार")
 # Inside submit_verdict block:
 success = insert_sarpanch_feedback(
     village=s_vill_en,
